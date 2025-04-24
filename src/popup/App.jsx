@@ -1,20 +1,43 @@
 import React from "react";
 import "./index.css";
 import logo from "../assets/torch.png";
+import BookMark from "./components/BookMark";
+import InfoTab from "./components/InfoTab";
 
 const App = () => {
     return (
-        <div className="popup">
-            <header className="popup-header">
-                <img src={logo} className="popup-logo" alt="logo" />
-                <h1>Chrome Extension</h1>
-            </header>
-            <main>
-                <p>Welcome to your Chrome Extension!</p>
-                <button onClick={() => alert("Button clicked!")}>
-                    Click Me
-                </button>
-            </main>
+        <div
+            style={{
+                width: "400px",
+                padding: "20px 40px",
+            }}
+        >
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "20px",
+                }}
+            >
+                <img
+                    src={logo}
+                    className="popup-logo"
+                    alt="logo"
+                    height="35px"
+                />
+                <h1>BookMark Extension</h1>
+            </div>
+            <div
+                style={{
+                    display: "flex",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                }}
+            >
+                <InfoTab />
+                <BookMark />
+            </div>
         </div>
     );
 };
