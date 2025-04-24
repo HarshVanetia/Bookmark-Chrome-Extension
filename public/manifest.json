@@ -3,7 +3,7 @@
     "name": "Chrome Extension Vite React",
     "version": "1.0.0",
     "description": "A Chrome extension built with Vite and React.",
-    "permissions": ["activeTab"],
+    "permissions": ["activeTab", "storage"],
     "background": {
         "service_worker": "background.js"
     },

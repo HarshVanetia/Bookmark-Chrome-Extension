@@ -5,27 +5,36 @@ import ContextStore from "../context/contextStore";
 const BookMark = () => {
     const { title, logo, url } = useContext(ContextStore);
     const [isMarked, setIsMarked] = useState(false);
-    let bookmarks = [];
 
     useEffect(() => {
         (async () => {
-            bookmarks = await chrome.storage.local.get(["bookmarks"]);
-            bookmarks.forEach((element) => {
-                if (element.url === url) {
-                    setIsMarked(true);
-                }
-            });
+            const result = await chrome.storage.local.get("bookmarks");
+            const bookmarks = result.bookmarks || [];
+            const isAlreadyBookmarked = bookmarks.some(
+                (element) => element.url === url
+            );
+            if (isAlreadyBookmarked) {
+                setIsMarked(true);
+            }
         })();
     }, [url]);
 
     const handelClick = async () => {
-        setIsMarked(true);
-        const bookmarks = await chrome.storage.local.get(["bookmarks"]);
-        bookmarks.push({
-            title,
-            logo,
-            url,
-        });
+        const result = await chrome.storage.local.get("bookmarks");
+        const bookmarks = result.bookmarks || [];
+        if (!isMarked) {
+            bookmarks.push({
+                title,
+                logo,
+                url,
+            });
+            await chrome.storage.local.set({ bookmarks });
+            setIsMarked(true);
+        } else {
+            const newList = bookmarks.filter((element) => element.url !== url);
+            await chrome.storage.local.set({ bookmarks: newList });
+            setIsMarked(false);
+        }
     };
 
     return (
